@@ -11,6 +11,7 @@ import requests
 from collections import defaultdict
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
+from snorkel.models import construct_stable_id
 import warnings
 
 
@@ -113,9 +114,11 @@ class LTPParser(Parser):
             warnings("http error")
         position=0
         for doc in docs:
+            offset=0
             for para in doc:
                 for sent in para:
                     p = defaultdict(list)
+                    loc=0
                     for w in sent:
                         p['words'].append(w['cont'])
                         p['lemmas'].append(w['cont'])
@@ -125,10 +128,21 @@ class LTPParser(Parser):
                         p['entity_cids'].append(w['id'])
                         p['dep_parents'].append(w['parent'])
                         p['dep_labels'].append(w['relate'])
-
+                        p['char_offsets'].append(loc)
+                        loc+=len(w['cont'])
+                    p['abs_char_offsets']=[offset+l for l in p['char_offsets']]
+                    text="".join(p['words'])
+                    offset+=len(text)
                     p['entity_cids'] = ['O' for _ in p['words']]
                     p['entity_types'] = ['O' for _ in p['words']]
                     p['position']=position
+                    p['document'] = document
+                    p['text'] = text
+                    abs_sent_offset = p['abs_char_offsets'][0]
+                    abs_sent_offset_end = abs_sent_offset + p['char_offsets'][-1] + len(p['words'][-1])
+                    if document:
+                        p['stable_id'] = construct_stable_id(document, 'sentence', abs_sent_offset,
+                                                                 abs_sent_offset_end)
 
                     position+=1
                     yield p
