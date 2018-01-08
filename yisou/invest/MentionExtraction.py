@@ -15,7 +15,7 @@ session = SnorkelSession()
 from .parser.Preprocessors import CSVDocPreprocessor
 
 # TODO 待处理的文本
-docs = CSVDocPreprocessor('/home/lx/longxiao/workspace/knowledgegraph/CNdeepdive/transaction/input/articles.csv')
+docs = CSVDocPreprocessor('/home/lx/longxiao/workspace/knowledgegraph/transaction/input/articles.csv')
 
 # TODO needs specify the parser
 corpusParser = CorpusParser(parser=LTPParser())
