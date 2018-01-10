@@ -38,3 +38,4 @@ ngrams = Ngrams(n_max=7)
 # TODO  这个地方需要改
 matcher = ORGMatcher(longest_match_only=True)
 candExtrator = CandidateExtractor(invest, [ngrams, ngrams], [matcher, matcher])
+candExtrator.apply()
