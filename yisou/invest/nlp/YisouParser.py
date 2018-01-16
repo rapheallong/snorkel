@@ -163,7 +163,7 @@ class JiebaParser(Parser):
         return ParserConnection(self)
     def parse(self,document,text):
         if len(text.strip()) == 0:
-            sys.stderr.write("Warning, empty document {0} passed to CoreNLP".format(document.name if document else "?"))
+            sys.stderr.write("Warning, empty document {0} passed to JiebaParser".format(document.name if document else "?"))
             return
 
         if isinstance(text, str):
@@ -203,7 +203,6 @@ class JiebaParser(Parser):
                                                      abs_sent_offset_end)
 
             position += 1
-            print(parts)
             yield parts
 
 
