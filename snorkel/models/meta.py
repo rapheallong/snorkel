@@ -19,9 +19,11 @@ snorkel_postgres = snorkel_conn_string.startswith('postgres')
 
 
 # Automatically turns on foreign key enforcement for SQLite
+# TODO 这个地方的代码可以读一下 事件驱动
 @event.listens_for(Engine, "connect")
 def set_sqlite_pragma(dbapi_connection, connection_record):
     if snorkel_conn_string.startswith('sqlite'):
+        dbapi_connection.text_factory = str
         cursor = dbapi_connection.cursor()
         cursor.execute("PRAGMA foreign_keys=ON")
         cursor.close()
