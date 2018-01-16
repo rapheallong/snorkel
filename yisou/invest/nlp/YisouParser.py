@@ -173,6 +173,7 @@ class JiebaParser(Parser):
         position=0
         for sentence in sentences:
             s=sentence.strip()
+            print(s)
             if(len(s)==0):
                 continue
             parts=defaultdict(list)
@@ -195,7 +196,7 @@ class JiebaParser(Parser):
             parts['entity_types'] = ['O' for _ in parts['words']]
             parts['position'] = position
             parts['document'] = document
-            parts['text'] = text
+            parts['text'] = s
             abs_sent_offset = parts['abs_char_offsets'][0]
             abs_sent_offset_end = abs_sent_offset + parts['char_offsets'][-1] + len(parts['words'][-1])
             if document:
