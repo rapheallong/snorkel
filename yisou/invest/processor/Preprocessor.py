@@ -12,3 +12,10 @@ class CSVDocPreprocessor(DocPreprocessor):
                     name=name, stable_id=stable_id, meta={'file_name': file_name}
                 )
                 yield doc, text
+class DirectoryProprocessor(DocPreprocessor):
+    def __init__(self,dir,parser):
+        self.parser=parser
+        self.dir=dir
+
+    def parse_file(self, fp, file_name):
+        self.parser

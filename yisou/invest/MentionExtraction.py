@@ -3,22 +3,22 @@ import os
 import numpy as np
 from snorkel import SnorkelSession
 from snorkel.parser import CorpusParser
-from .nlp.YisouParser import LTPParser
+from yisou.invest.nlp.YisouParser import JiebaParser
 from snorkel.candidates import Ngrams, CandidateExtractor
-from .nlp.YisouMatcher import ORGMatcher
+from yisou.invest.nlp.YisouMatcher import ORGMatcher
 
-os.environ['SNORKELHOME'] = '/home/lx/longxiao/workspace/knowledgegraph/snorkel/snorkel'
+os.environ['SNORKELHOME'] = '/home/lx/longxiao/workspace/work1/snorkel/snorkel'
 from snorkel import SnorkelSession
 
 session = SnorkelSession()
 # load docs
-from .parser.Preprocessors import CSVDocPreprocessor
+from snorkel.parser import TextDocPreprocessor
 
 # TODO 待处理的文本
-docs = CSVDocPreprocessor('/home/lx/longxiao/workspace/knowledgegraph/transaction/input/articles.csv')
+docs = TextDocPreprocessor('/home/lx/longxiao/workspace/work1/snorkel/yisou/data/news')
 
 # TODO needs specify the parser
-corpusParser = CorpusParser(parser=LTPParser())
+corpusParser = CorpusParser(parser=JiebaParser())
 # 文本已经作好解析
 corpusParser.apply(docs)
 

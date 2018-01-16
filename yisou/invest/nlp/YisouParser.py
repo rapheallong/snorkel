@@ -1,18 +1,20 @@
-from snorkel.parser import Parser
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
+from snorkel.parser import Parser
 from builtins import *
 import sys
 import requests
-
+import json
 from collections import defaultdict
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 from snorkel.models import construct_stable_id
+from jieba import posseg
 import warnings
+import re
 
 
 class ParserConnection(object):
@@ -85,6 +87,10 @@ class URLParserConnection(ParserConnection):
         '''
         return self.parser.parse(document, text, self)
 
+class FoolnltkParser(Parser):
+    def __init__(self):
+        pass
+
 
 class LTPParser(Parser):
     def __init__(self):
@@ -110,10 +116,12 @@ class LTPParser(Parser):
                 'format': 'json'
             }
             docs = conn.post(self.endpoint, args)
+            print(docs)
         except:
             warnings("http error")
         position=0
-        for doc in docs:
+        jo = json.loads(docs)
+        for doc in jo:
             offset=0
             for para in doc:
                 for sent in para:
@@ -146,3 +154,57 @@ class LTPParser(Parser):
 
                     position+=1
                     yield p
+
+
+class JiebaParser(Parser):
+    def __init__(self):
+        pass
+    def connect(self):
+        return ParserConnection(self)
+    def parse(self,document,text):
+        if len(text.strip()) == 0:
+            sys.stderr.write("Warning, empty document {0} passed to CoreNLP".format(document.name if document else "?"))
+            return
+
+        if isinstance(text, str):
+            text = text.encode('utf-8', 'error')
+        sentences =re.split(r'。|\.|\?|\？',text)
+        offset=0
+        position=0
+        for sentence in sentences:
+            s=sentence.strip()
+            if(len(s)==0):
+                continue
+            parts=defaultdict(list)
+            ws=posseg.cut(s)
+            idx=0
+            loc=0
+            for w,i in ws:
+                parts['words'].append(w)
+                parts['lemmas'].append(w)
+                parts['pos_tags'].append(w)
+                parts['ner_tags'].append(w)
+                parts['dep_parents'].append('')
+                parts['dep_labels'].append('')
+                parts['char_offsets'].append(loc)
+                idx=idx+1
+                loc=loc+len(w)
+            parts['abs_char_offsets'] = [offset + l for l in parts['char_offsets']]
+            offset+=len(s)
+            parts['entity_cids'] = ['O' for _ in parts['words']]
+            parts['entity_types'] = ['O' for _ in parts['words']]
+            parts['position'] = position
+            parts['document'] = document
+            parts['text'] = text
+            abs_sent_offset = parts['abs_char_offsets'][0]
+            abs_sent_offset_end = abs_sent_offset + parts['char_offsets'][-1] + len(parts['words'][-1])
+            if document:
+                parts['stable_id'] = construct_stable_id(document, 'sentence', abs_sent_offset,
+                                                     abs_sent_offset_end)
+
+            position += 1
+            print(parts)
+            yield parts
+
+
+
