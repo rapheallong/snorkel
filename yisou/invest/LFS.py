@@ -5,10 +5,9 @@ from snorkel.lf_helpers import (
     get_left_tokens, get_right_tokens, get_between_tokens,
     get_text_between, get_tagged_text,
 )
-import csvdb
-LFS=[]
+from csvdb import csvdb
 invest_verb1={'投资','斥资'}
-invest_verb2={'融资'}
+invest_verb2={'融资','领投'}
 rgx1={r'.*投资.*'}
 rgx2={r'.*获.*融资'}
 relate_word=['美元']
@@ -23,19 +22,17 @@ def LF_between_words(c):
     '''
     if len(invest_verb1.intersection(get_between_tokens(c)))>0:
         return 1
-    elif len(invest_verb1.intersection(get_between_tokens(c)))>0:
+    elif len(invest_verb2.intersection(get_between_tokens(c)))>0:
         return 2
     else:
         return 0
-def LF_left_words(c):
-    return
-def LF_regx(c):
-    '''
-    通过正则表达式
-    :param c:
-    :return:
-    '''
-    return
+def LF_right_words(c):
+    if len(invest_verb1.intersection(get_between_tokens(c)))>0:
+        return 1
+    elif len(invest_verb2.intersection(get_between_tokens(c)))>0:
+        return 2
+    else:
+        return 0
 def LF_distant(c):
     '''
     远程监督方式
@@ -45,3 +42,6 @@ def LF_distant(c):
     c1=c.company1.get_span()
     c2=c.company2.get_span()
     return cdb.exists(c1,c2)
+
+
+LFS=[LF_between_words,LF_distant,LF_right_words]
