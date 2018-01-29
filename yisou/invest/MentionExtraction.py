@@ -9,8 +9,7 @@ from yisou.invest.nlp.YisouMatcher import ORGMatcher
 import sys
 reload(sys)
 sys.setdefaultencoding('utf8')
-
-os.environ['SNORKELHOME'] = '/home/lx/longxiao/workspace/work1/snorkel/snorkel'
+import  yisou.Env_variable
 from snorkel import SnorkelSession
 
 session = SnorkelSession()
