@@ -32,6 +32,7 @@ L_train = labeler.load_matrix(session, split=0)
 
 gen_model=GenerativeModel()
 gen_model.train(L_train, epochs=100, decay=0.95, step_size=0.1 / L_train.shape[0], reg_param=1e-6)
+gen_model.learned_lf_stats()
 train_marginals = gen_model.marginals(L_train)
 plt.hist(train_marginals, bins=20)
 plt.show()
