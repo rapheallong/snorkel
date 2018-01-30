@@ -168,7 +168,7 @@ class JiebaParser(Parser):
 
         if isinstance(text, str):
             text = text.encode('utf-8', 'error')
-        sentences =re.split(r'。|\.|\?|？|。',text)
+        sentences =re.split(ur'。|\.|\?|？|。',text)
         offset=0
         position=0
         for sentence in sentences:
