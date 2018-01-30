@@ -20,19 +20,23 @@ def LF_between_words(c):
     :param c:
     :return:
     '''
+    a=c[0]
+    b=c[1]
+    print a.sentence
+    print a.get_span()
     if len(invest_verb1.intersection(get_between_tokens(c)))>0:
         return 1
     elif len(invest_verb2.intersection(get_between_tokens(c)))>0:
-        return 2
+        return 1
     else:
-        return 3
+        return -1
 def LF_right_words(c):
     if len(invest_verb1.intersection(get_between_tokens(c)))>0:
         return 1
     elif len(invest_verb2.intersection(get_between_tokens(c)))>0:
-        return 2
+        return 1
     else:
-        return 3
+        return -1
 def LF_distant(c):
     '''
     远程监督方式

@@ -113,7 +113,7 @@ class csr_AnnotationMatrix(sparse.csr_matrix):
 
 
 try:
-    class csr_LabelMatrix(csr_AnnotationMatrix):
+    class ascsr_LabelMatrix(csr_AnnotationMatrix):
 
         def lf_stats(self, session, labels=None, est_accs=None):
             """Returns a pandas DataFrame with the LFs and various per-LF statistics"""
@@ -319,7 +319,7 @@ class AnnotatorUDF(UDF):
             if not clear:
                 res = self.session.execute(anno_update_query, {'cid': cid, 'kid': key_id, 'value': value})
 
-            # If Annotation does not exist, insert
+            # If Annotation does not exist, inser t
             if (clear or res.rowcount == 0) and value != 0:
                 self.session.execute(anno_insert_query, {'candidate_id': cid, 'key_id': key_id, 'value': value})
 
@@ -399,7 +399,7 @@ def load_matrix(matrix_class, annotation_key_class, annotation_class, session,
 
 
 def load_label_matrix(session, **kwargs):
-    return load_matrix(csr_LabelMatrix, LabelKey, Label, session, **kwargs)
+    return load_matrix(ascsr_LabelMatrix, LabelKey, Label, session, **kwargs)
 
 
 def load_feature_matrix(session, **kwargs):

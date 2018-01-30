@@ -6,9 +6,8 @@ from snorkel.parser import CorpusParser
 from yisou.invest.nlp.YisouParser import JiebaParser
 from snorkel.candidates import Ngrams, CandidateExtractor
 from yisou.invest.nlp.YisouMatcher import ORGMatcher
-import yisou.Env_variable
 from snorkel import SnorkelSession
-
+import yisou.Env_variable
 session = SnorkelSession()
 # load docs
 from snorkel.parser import TextDocPreprocessor

@@ -168,7 +168,7 @@ class JiebaParser(Parser):
 
         if isinstance(text, str):
             text = text.encode('utf-8', 'error')
-        sentences =re.split(r'。|\.|\?|？|。',text)
+        sentences =re.split(ur'。|\.|\?|？|。',text)
         offset=0
         position=0
         for sentence in sentences:
@@ -183,7 +183,7 @@ class JiebaParser(Parser):
             for w,i in ws:
                 parts['words'].append(w)
                 parts['lemmas'].append(w)
-                parts['pos_tags'].append(w)
+                parts['pos_tags'].append(i)
                 parts['ner_tags'].append(w)
                 parts['dep_parents'].append('')
                 parts['dep_labels'].append('')
