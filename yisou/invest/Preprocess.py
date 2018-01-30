@@ -6,7 +6,7 @@ from snorkel.parser import CorpusParser
 from yisou.invest.nlp.YisouParser import JiebaParser
 from snorkel.candidates import Ngrams, CandidateExtractor
 from yisou.invest.nlp.YisouMatcher import ORGMatcher
-os.environ['SNORKELHOME'] = '/home/lx/longxiao/workspace/work1/snorkel/snorkel'
+import yisou.Env_variable
 from snorkel import SnorkelSession
 
 session = SnorkelSession()

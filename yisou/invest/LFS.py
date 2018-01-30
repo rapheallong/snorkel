@@ -25,14 +25,14 @@ def LF_between_words(c):
     elif len(invest_verb2.intersection(get_between_tokens(c)))>0:
         return 2
     else:
-        return 0
+        return 3
 def LF_right_words(c):
     if len(invest_verb1.intersection(get_between_tokens(c)))>0:
         return 1
     elif len(invest_verb2.intersection(get_between_tokens(c)))>0:
         return 2
     else:
-        return 0
+        return 3
 def LF_distant(c):
     '''
     远程监督方式
