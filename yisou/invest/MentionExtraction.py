@@ -17,7 +17,7 @@ session = SnorkelSession()
 
 # 下面开始提取mention
 from snorkel.models import Document, Sentence, candidate_subclass
-docs = session.query(Sentence).all()
+docs = session.query(Sentence).limit(200)
 invest = candidate_subclass('invest', ['company1', 'company2'])
 trainset=set()
 devset=set()
