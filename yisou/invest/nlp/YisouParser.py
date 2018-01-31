@@ -166,13 +166,17 @@ class JiebaParser(Parser):
             sys.stderr.write("Warning, empty document {0} passed to JiebaParser".format(document.name if document else "?"))
             return
 
-        if isinstance(text, str):
-            text = text.encode('utf-8', 'error')
-        sentences =re.split(ur'。|\.|\?|？|。',text)
+        # if isinstance(text, str):
+        #     text = text.encode('utf-8', 'error')
+        sentences =re.split(u'。|\?|？',text)
         offset=0
         position=0
         for sentence in sentences:
-            s=sentence.strip()
+            s1=sentence.strip()
+            s=re.sub(ur'\r|\n|\t','',s1)
+            keywods =['投资','轮','公司','融资','获得','投','融','美元','人民币','千万','亿','百万']
+            if(not any([d in s for d in keywods])):
+                continue
             print(s)
             if(len(s)==0):
                 continue
