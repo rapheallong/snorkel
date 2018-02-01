@@ -27,8 +27,8 @@ session = SnorkelSession()
 
 invest = candidate_subclass('invest', ['company1', 'company2'])
 labeler = LabelAnnotator(lfs=LFS)
-L_train = labeler.apply(split=0)
-L_train = labeler.load_matrix(session, split=0)
+L_train = labeler.apply(split=1)
+L_train = labeler.load_matrix(session, split=1)
 
 gen_model=GenerativeModel()
 gen_model.train(L_train, epochs=100, decay=0.95, step_size=0.1 / L_train.shape[0], reg_param=1e-6)

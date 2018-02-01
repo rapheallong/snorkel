@@ -22,20 +22,27 @@ def LF_between_words(c):
     '''
     a=c[0]
     b=c[1]
-    print a.sentence
+    # print a.sentence
     print a.get_span()
+    print '\t'.join(get_between_tokens(c))
     if len(invest_verb1.intersection(get_between_tokens(c)))>0:
+        print 'bw:---------------------->label true'
         return 1
     elif len(invest_verb2.intersection(get_between_tokens(c)))>0:
+        print 'bw:---------------------->label true'
         return 1
     else:
+        print 'bw:lable false'
         return -1
 def LF_right_words(c):
     if len(invest_verb1.intersection(get_between_tokens(c)))>0:
+        print 'rw:---------------------->label true'
         return 1
     elif len(invest_verb2.intersection(get_between_tokens(c)))>0:
+        print 'rw:---------------------->label true'
         return 1
     else:
+        print 'rw:label false'
         return -1
 def LF_distant(c):
     '''
@@ -45,6 +52,7 @@ def LF_distant(c):
     '''
     c1=c.company1.get_span()
     c2=c.company2.get_span()
+    print 'distant: label true'
     return cdb.exists(c1,c2)
 
 

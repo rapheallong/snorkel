@@ -15,4 +15,4 @@ class csvdb():
                 return 1
             elif((f in oname or oname in f) and (o in fname or fname in o )):
                 return 1
-        return -1
+        return 1
