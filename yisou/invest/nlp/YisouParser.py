@@ -174,8 +174,8 @@ class JiebaParser(Parser):
         for sentence in sentences:
             s1=sentence.strip()
             s=re.sub(ur'\r|\n|\t','',s1)
-            keywods =['投资','轮','公司','融资','获得','投','融','美元','人民币','千万','亿','百万']
-            if(not any([d in s for d in keywods])):
+
+            if(not (re.search('.*获+.*[融资|投资]',s) or re.search('.*领投.*',s))):
                 continue
             print(s)
             if(len(s)==0):
